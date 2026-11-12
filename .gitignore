@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+examples/*/out/
+*_build/
+*_preview.png
+.venv/
+.DS_Store

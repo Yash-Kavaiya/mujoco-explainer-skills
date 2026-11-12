@@ -1,0 +1,141 @@
+# "Physics in 60 seconds" — a showcase storyboard that exercises every shot type and overlay.
+# Render:  python skills/mujoco-explainer-video/scripts/make_video.py examples/physics-in-60-seconds/storyboard.yaml
+title: Physics in 60 Seconds with MuJoCo
+output: out/physics_in_60s.mp4
+resolution: [1280, 720]
+fps: 30
+progress_bar: true
+theme:
+  bg: "#0d1017"
+  accent: "#4cc9f0"
+
+shots:
+  - type: title
+    kicker: "MuJoCo explainer"
+    title: "Physics in 60 Seconds"
+    subtitle: "Energy · Chaos · Friction · Contact · Control"
+    duration: 3.5
+
+  - type: bullets
+    title: "What is MuJoCo?"
+    bullets:
+      - "Multi-Joint dynamics with Contact: a fast, accurate physics engine"
+      - "Open source (Apache-2.0), maintained by Google DeepMind"
+      - "Used for robotics, biomechanics, graphics and RL research"
+    equation: "M(q) q'' + c(q, q') = tau + J^T f"
+    duration: 6
+
+  - type: sim
+    scene: "@scenes/pendulum.xml"
+    duration: 6
+    heading: "1 · Energy"
+    subheading: "RK4 integrator, no damping"
+    camera: {lookat: [0, 0, 1.2], distance: [3.6, 3.0], azimuth: [80, 100], elevation: [-8, -14]}
+    trails: [{site: bob, length: 50, width: 0.012}]
+    plot: energy
+    captions:
+      - {t: 0.4, text: "Kinetic and potential energy trade places every swing..."}
+      - {t: 3.2, text: "...while the total stays flat: energy is conserved."}
+
+  - type: sim
+    scene: "@scenes/double_pendulum.xml"
+    duration: 7
+    heading: "2 · Chaos"
+    subheading: "a double pendulum"
+    camera: {lookat: [0, 0, 1.25], distance: 3.4, azimuth: [70, 110], elevation: -10}
+    trails: [{site: tip, length: 160, width: 0.01, color: 2}]
+    callouts:
+      - {site: tip, text: "tip", t: [0.5, 3.5]}
+    captions:
+      - {t: 0.4, text: "Add one more joint and the motion becomes chaotic."}
+      - {t: 3.8, text: "Fully deterministic, yet practically unpredictable."}
+
+  - type: sim
+    scene: "@scenes/double_pendulum_twins.xml"
+    duration: 9
+    heading: "Sensitive dependence"
+    subheading: "three starts, 0.001 rad apart"
+    camera: {lookat: [0, 0, 1.3], distance: [3.4, 3.8], azimuth: 90, elevation: -4}
+    trails:
+      - {site: a_tip, length: 70, color: 0}
+      - {site: b_tip, length: 70, color: 1}
+      - {site: c_tip, length: 70, color: 2}
+    captions:
+      - {t: 0.4, text: "Three pendulums, started a thousandth of a radian apart."}
+      - {t: 4.0, text: "Within seconds they disagree completely: the butterfly effect."}
+
+  - type: compare
+    scene: "@scenes/double_pendulum.xml"
+    duration: 6
+    heading: "Same scene, two gravities"
+    camera: {lookat: [0, 0, 1.2], distance: 3.0, azimuth: 90, elevation: -8}
+    variants:
+      - label: "Earth  g = 9.81"
+        trails: [{site: tip, length: 90, color: 0}]
+      - label: "Moon  g = 1.62"
+        color: "#ffd166"
+        overrides: {opt.gravity: [0, 0, -1.62]}
+        trails: [{site: tip, length: 90, color: 2}]
+    captions:
+      - {t: 0.4, text: "Overrides change model parameters per variant without editing the XML."}
+
+  - type: sim
+    scene: "@scenes/friction_ramp.xml"
+    duration: 6
+    heading: "3 · Friction"
+    subheading: "25° ramp, tan 25° = 0.47 · half speed"
+    speed: 0.5
+    camera: {lookat: [0.2, 0, 0.75], distance: [5.4, 5.0], azimuth: [110, 98], elevation: [-14, -10]}
+    callouts:
+      - {body: box_ice, text: "mu 0.10", t: [0.3, 5.7], color: 0}
+      - {body: box_wood, text: "mu 0.35", t: [0.3, 5.7], color: 2}
+      - {body: box_rubber, text: "mu 0.80", t: [0.3, 5.7], color: 1}
+    captions:
+      - {t: 0.4, text: "Coulomb friction: a box slides only when mu < tan(theta)."}
+
+  - type: sim
+    scene: "@scenes/bounce.xml"
+    duration: 6
+    heading: "4 · Contact"
+    subheading: "soft constraints with solref damping"
+    camera: {lookat: [0, 0, 0.7], distance: 3.6, azimuth: 90, elevation: -6}
+    trails:
+      - {body: ball_bouncy, length: 40, color: 0, width: 0.02}
+      - {body: ball_lively, length: 40, color: 3, width: 0.02}
+      - {body: ball_soft, length: 40, color: 2, width: 0.02}
+      - {body: ball_dead, length: 40, color: 1, width: 0.02}
+    captions:
+      - {t: 0.4, text: "Identical balls; only the contact damping ratio differs."}
+      - {t: 3.2, text: "Lower damping means more energy returned, so a higher bounce."}
+
+  - type: sim
+    scene: "@scenes/cartpole.xml"
+    duration: 8
+    heading: "5 · Control"
+    subheading: "LQR from MuJoCo's own derivatives"
+    camera: {lookat: [0, 0, 0.8], distance: 3.8, azimuth: [100, 80], elevation: -8}
+    control:
+      type: python
+      file: "@scenes/controllers/lqr_balance.py"
+      params: {q_angle: 60, r: 0.05}
+    pushes:
+      - {t: 2.5, body: pole, force: [6, 0, 0], duration: 0.1}
+      - {t: 5.0, body: pole, force: [-8, 0, 0], duration: 0.1}
+    callouts:
+      - {body: pole, offset: [0, 0, 0.9], text: "push!", t: [2.4, 3.4], color: 1}
+      - {body: pole, offset: [0, 0, 0.9], text: "push!", t: [4.9, 5.9], color: 1}
+    plot:
+      title: "Pole angle (rad)"
+      ylim: [-0.3, 0.3]
+      series:
+        - {label: "angle", expr: "qpos[1]"}
+        - {label: "force / 100", expr: "ctrl[0] / 100", color: 2}
+    captions:
+      - {t: 0.4, text: "mjd_transitionFD linearises the dynamics; Riccati gives the gains."}
+      - {t: 4.0, text: "Shove it, and feedback brings it back to balance."}
+
+  - type: title
+    kicker: "Build your own"
+    title: "mujoco.org"
+    subtitle: "github.com/google-deepmind/mujoco"
+    duration: 3.5

@@ -1,0 +1,59 @@
+# Copy this file into a new folder, edit, then:
+#   python <skill>/scripts/make_video.py storyboard.yaml --preview
+title: My MuJoCo Explainer
+output: out/my_explainer.mp4
+resolution: [1280, 720]      # 1920x1080 final · 1080x1920 for shorts
+fps: 30
+progress_bar: true
+theme: {accent: "#4cc9f0"}
+# music: {file: music.mp3, volume: 0.2}
+# voice: {voice: "Zira", rate: 175}
+
+shots:
+  # 1 — HOOK: a question or a surprising visual in under 4 seconds
+  - type: title
+    kicker: "Physics explained"
+    title: "Why does X happen?"
+    subtitle: "a MuJoCo simulation"
+    duration: 3.5
+    # say: "Why does X happen? Let's simulate it."
+
+  # 2 — SETUP: what the viewer needs to know
+  - type: bullets
+    title: "The idea"
+    bullets:
+      - "First key fact"
+      - "Second key fact"
+    equation: "F = m a"
+    duration: 6
+
+  # 3 — DEMONSTRATION: one sim proving one claim
+  - type: sim
+    scene: "@scenes/pendulum.xml"
+    duration: 6
+    heading: "1 · Demonstration"
+    subheading: "what we are looking at"
+    camera: {lookat: [0, 0, 1.2], distance: [3.6, 3.0], azimuth: [80, 100], elevation: -10}
+    trails: [{site: bob, length: 60}]
+    plot: energy
+    captions:
+      - {t: 0.4, text: "Point at what matters."}
+      - {t: 3.2, text: "State the conclusion."}
+
+  # 4 — CONTRAST: change one thing, hold the rest fixed
+  - type: compare
+    scene: "@scenes/pendulum.xml"
+    duration: 6
+    heading: "What if...?"
+    camera: {lookat: [0, 0, 1.2], distance: 3.2, azimuth: 90, elevation: -8}
+    variants:
+      - {label: "Earth", trails: [{site: bob, length: 60, color: 0}]}
+      - {label: "Moon", overrides: {opt.gravity: [0, 0, -1.62]}, trails: [{site: bob, length: 60, color: 2}]}
+    captions: "Lower gravity, slower swing: the period scales as 1/sqrt(g)."
+
+  # 5 — TAKEAWAY
+  - type: title
+    kicker: "Takeaway"
+    title: "One sentence the viewer should remember"
+    subtitle: "mujoco.org"
+    duration: 3.5

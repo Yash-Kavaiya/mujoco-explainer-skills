@@ -1,0 +1,10 @@
+{
+  "name": "mujoco-explainer-skills",
+  "version": "0.1.0",
+  "description": "Agent skills for making MuJoCo physics/robotics explainer videos: storyboard planning, camera-ready MJCF scene authoring, and a YAML-to-MP4 render pipeline with trails, callouts, live plots, comparisons, controllers and narration.",
+  "author": {"name": "Yash-Kavaiya", "url": "https://github.com/Yash-Kavaiya"},
+  "homepage": "https://github.com/Yash-Kavaiya/mujoco-explainer-skills",
+  "repository": "https://github.com/Yash-Kavaiya/mujoco-explainer-skills",
+  "license": "Apache-2.0",
+  "keywords": ["mujoco", "physics", "simulation", "video", "explainer", "robotics", "skills"]
+}

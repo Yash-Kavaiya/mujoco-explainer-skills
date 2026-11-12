@@ -1,0 +1,11 @@
+{
+  "name": "mujoco-explainer-skills",
+  "owner": {"name": "Yash-Kavaiya"},
+  "plugins": [
+    {
+      "name": "mujoco-explainer-skills",
+      "source": "./",
+      "description": "Make MuJoCo physics/robotics explainer videos from a YAML storyboard."
+    }
+  ]
+}

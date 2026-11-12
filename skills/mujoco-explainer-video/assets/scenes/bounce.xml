@@ -1,0 +1,33 @@
+<!-- Restitution: identical balls, different contact damping (solref dampratio; priority=1 so the ball's value wins). Bodies: ball_bouncy (0.05), ball_lively (0.2), ball_soft (0.5), ball_dead (1.0). -->
+<mujoco model="bounce">
+  <option timestep="0.0005"/>
+  <visual>
+    <headlight ambient="0.25 0.25 0.28" diffuse="0.55 0.55 0.55" specular="0.1 0.1 0.1"/>
+    <rgba haze="0.05 0.06 0.08 1"/>
+    <global azimuth="90" elevation="-15" offwidth="1920" offheight="1080" fovy="40"/>
+    <quality shadowsize="4096" offsamples="8"/>
+    <map znear="0.01" zfar="50"/>
+  </visual>
+  <asset>
+    <texture name="sky" type="skybox" builtin="gradient" rgb1="0.13 0.15 0.20" rgb2="0.02 0.02 0.03" width="512" height="3072"/>
+    <texture name="grid" type="2d" builtin="checker" mark="edge" rgb1="0.15 0.17 0.21" rgb2="0.11 0.12 0.15" markrgb="0.32 0.36 0.44" width="300" height="300"/>
+    <material name="floor" texture="grid" texuniform="true" texrepeat="4 4" reflectance="0.12"/>
+    <material name="cyan" rgba="0.30 0.79 0.94 1" specular="0.6" shininess="0.7"/>
+    <material name="pink" rgba="0.97 0.15 0.52 1" specular="0.6" shininess="0.7"/>
+    <material name="gold" rgba="1.00 0.82 0.40 1" specular="0.6" shininess="0.7"/>
+    <material name="mint" rgba="0.02 0.84 0.63 1" specular="0.6" shininess="0.7"/>
+    <material name="violet" rgba="0.70 0.53 1.00 1" specular="0.6" shininess="0.7"/>
+    <material name="steel" rgba="0.55 0.58 0.64 1" specular="0.8" shininess="0.9" reflectance="0.2"/>
+    <material name="dark" rgba="0.20 0.22 0.27 1" specular="0.3" shininess="0.3"/>
+  </asset>
+  <worldbody>
+    <light name="key" pos="1.5 -2.5 4" dir="-0.3 0.6 -1" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="true"/>
+    <light name="fill" pos="-2 2 3" dir="0.5 -0.5 -1" diffuse="0.25 0.25 0.3" castshadow="false"/>
+    <geom name="floor" type="plane" size="0 0 0.05" material="floor"/>
+    <camera name="front" pos="0 -5 0.9" xyaxes="1 0 0 0 0.08 1"/>
+    <body name="ball_bouncy" pos="-0.9 0 1.6"><freejoint/><geom type="sphere" size="0.12" material="cyan" solref="0.01 0.05" priority="1" mass="0.5"/></body>
+    <body name="ball_lively" pos="-0.3 0 1.6"><freejoint/><geom type="sphere" size="0.12" material="mint" solref="0.01 0.2" priority="1" mass="0.5"/></body>
+    <body name="ball_soft" pos="0.3 0 1.6"><freejoint/><geom type="sphere" size="0.12" material="gold" solref="0.01 0.5" priority="1" mass="0.5"/></body>
+    <body name="ball_dead" pos="0.9 0 1.6"><freejoint/><geom type="sphere" size="0.12" material="pink" solref="0.01 1.0" priority="1" mass="0.5"/></body>
+  </worldbody>
+</mujoco>

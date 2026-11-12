@@ -1,0 +1,55 @@
+# Narrated short: damping vs integrator error. Demonstrates `say:` + `--tts` + `duration: auto`.
+# Render:  python skills/mujoco-explainer-video/scripts/make_video.py examples/where-does-energy-go/storyboard.yaml --tts
+title: Where does the energy go?
+output: out/where_does_energy_go.mp4
+resolution: [1280, 720]
+fps: 30
+voice: {rate: 170}
+
+shots:
+  - type: title
+    kicker: "MuJoCo explainer"
+    title: "Where does the energy go?"
+    subtitle: "two ways a pendulum loses energy"
+    say: "A pendulum should swing forever. So where does its energy go?"
+    duration: auto
+
+  - type: compare
+    scene: "@scenes/pendulum.xml"
+    heading: "Real loss: damping"
+    subheading: "joint damping 0 vs 0.4"
+    camera: {lookat: [0, 0, 1.2], distance: 3.4, azimuth: 90, elevation: -8}
+    variants:
+      - {label: "no damping", plot: energy, trails: [{site: bob, length: 40, color: 0}]}
+      - label: "damping 0.4"
+        color: 1
+        overrides: {joint.swing.damping: 0.4}
+        plot: energy
+        trails: [{site: bob, length: 40, color: 1}]
+    say: "Physical friction in the joint turns motion into heat. Watch total energy drain away on the right."
+    duration: auto
+    pad: 2.0
+
+  - type: compare
+    scene: "@scenes/pendulum.xml"
+    heading: "Fake change: integrator error"
+    subheading: "no damping, timestep 0.04 s"
+    camera: {lookat: [0, 0, 1.2], distance: 3.4, azimuth: 90, elevation: -8}
+    overrides: {opt.timestep: 0.04}
+    plot:
+      title: "Total energy (J)"
+      ylim: [13.2, 14.4]
+      series: [{label: "total", expr: "kinetic + potential", color: 2}]
+    variants:
+      - {label: "Euler", color: 2, overrides: {opt.integrator: 0}}
+      - {label: "RK4", color: 3, overrides: {opt.integrator: 1}}
+    say: "With a big time step, numerical error alone makes the energy wobble. A higher order integrator like RK4 keeps it flat."
+    duration: auto
+    pad: 2.0
+
+  - type: title
+    kicker: "Takeaway"
+    title: "Check energy before you trust a simulation"
+    subtitle: "mujoco.org"
+    say: "So before you trust a simulation, check its energy."
+    duration: auto

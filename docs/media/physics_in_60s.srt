@@ -1,0 +1,48 @@
+1
+00:00:09,900 --> 00:00:12,650
+Kinetic and potential energy trade places every swing...
+
+2
+00:00:12,700 --> 00:00:15,300
+...while the total stays flat: energy is conserved.
+
+3
+00:00:15,900 --> 00:00:19,250
+Add one more joint and the motion becomes chaotic.
+
+4
+00:00:19,300 --> 00:00:22,300
+Fully deterministic, yet practically unpredictable.
+
+5
+00:00:22,900 --> 00:00:26,450
+Three pendulums, started a thousandth of a radian apart.
+
+6
+00:00:26,500 --> 00:00:31,300
+Within seconds they disagree completely: the butterfly effect.
+
+7
+00:00:31,900 --> 00:00:37,300
+Overrides change model parameters per variant without editing the XML.
+
+8
+00:00:37,900 --> 00:00:43,300
+Coulomb friction: a box slides only when mu < tan(theta).
+
+9
+00:00:43,900 --> 00:00:46,650
+Identical balls; only the contact damping ratio differs.
+
+10
+00:00:46,700 --> 00:00:49,300
+Lower damping means more energy returned, so a higher bounce.
+
+11
+00:00:49,900 --> 00:00:53,450
+mjd_transitionFD linearises the dynamics; Riccati gives the gains.
+
+12
+00:00:53,500 --> 00:00:57,300
+Shove it, and feedback brings it back to balance.
+

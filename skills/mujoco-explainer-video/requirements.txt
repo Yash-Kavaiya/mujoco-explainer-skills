@@ -1,0 +1,8 @@
+mujoco>=3.2
+numpy>=1.24
+pillow>=10.1
+imageio>=2.31
+imageio-ffmpeg>=0.4.9
+pyyaml>=6.0
+# optional: offline narration for `say:` lines (--tts)
+pyttsx3>=2.90

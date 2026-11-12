@@ -1,0 +1,41 @@
+<!-- Double pendulum: deterministic chaos. Joints: j1, j2. Bodies: link1, link2. Site: tip. -->
+<mujoco model="double_pendulum">
+  <option timestep="0.0005" integrator="RK4"/>
+  <visual>
+    <headlight ambient="0.25 0.25 0.28" diffuse="0.55 0.55 0.55" specular="0.1 0.1 0.1"/>
+    <rgba haze="0.05 0.06 0.08 1"/>
+    <global azimuth="90" elevation="-15" offwidth="1920" offheight="1080" fovy="40"/>
+    <quality shadowsize="4096" offsamples="8"/>
+    <map znear="0.01" zfar="50"/>
+  </visual>
+  <asset>
+    <texture name="sky" type="skybox" builtin="gradient" rgb1="0.13 0.15 0.20" rgb2="0.02 0.02 0.03" width="512" height="3072"/>
+    <texture name="grid" type="2d" builtin="checker" mark="edge" rgb1="0.15 0.17 0.21" rgb2="0.11 0.12 0.15" markrgb="0.32 0.36 0.44" width="300" height="300"/>
+    <material name="floor" texture="grid" texuniform="true" texrepeat="4 4" reflectance="0.12"/>
+    <material name="cyan" rgba="0.30 0.79 0.94 1" specular="0.6" shininess="0.7"/>
+    <material name="pink" rgba="0.97 0.15 0.52 1" specular="0.6" shininess="0.7"/>
+    <material name="gold" rgba="1.00 0.82 0.40 1" specular="0.6" shininess="0.7"/>
+    <material name="mint" rgba="0.02 0.84 0.63 1" specular="0.6" shininess="0.7"/>
+    <material name="violet" rgba="0.70 0.53 1.00 1" specular="0.6" shininess="0.7"/>
+    <material name="steel" rgba="0.55 0.58 0.64 1" specular="0.8" shininess="0.9" reflectance="0.2"/>
+    <material name="dark" rgba="0.20 0.22 0.27 1" specular="0.3" shininess="0.3"/>
+  </asset>
+  <worldbody>
+    <light name="key" pos="1.5 -2.5 4" dir="-0.3 0.6 -1" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="true"/>
+    <light name="fill" pos="-2 2 3" dir="0.5 -0.5 -1" diffuse="0.25 0.25 0.3" castshadow="false"/>
+    <geom name="floor" type="plane" size="0 0 0.05" material="floor"/>
+    <camera name="front" pos="0 -6.2 1.45" xyaxes="1 0 0 0 0.06 1"/>
+    <geom name="post" type="cylinder" fromto="0 0.12 0 0 0.12 1.6" size="0.025" material="dark" contype="0" conaffinity="0"/>
+    <body name="link1" pos="0 0 1.6">
+      <joint name="j1" type="hinge" axis="0 1 0"/>
+      <geom type="capsule" fromto="0 0 0 0 0 -0.5" size="0.03" material="cyan" contype="0" conaffinity="0" mass="1"/>
+      <body name="link2" pos="0 0 -0.5">
+        <joint name="j2" type="hinge" axis="0 1 0"/>
+        <geom type="capsule" fromto="0 0 0 0 0 -0.5" size="0.03" material="pink" contype="0" conaffinity="0" mass="1"/>
+        <geom type="sphere" pos="0 0 -0.5" size="0.05" material="gold" contype="0" conaffinity="0" mass="0.2"/>
+        <site name="tip" pos="0 0 -0.5" size="0.01"/>
+      </body>
+    </body>
+  </worldbody>
+  <keyframe><key name="start" qpos="2.2 2.0"/></keyframe>
+</mujoco>
