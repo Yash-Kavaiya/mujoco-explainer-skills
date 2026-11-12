@@ -34,6 +34,12 @@ cd mujoco-explainer-skills
 pip install -r requirements.txt          # mujoco, numpy, pillow, imageio(+ffmpeg), pyyaml, pyttsx3
 ```
 
+**Any agent, via [skills.sh](https://skills.sh/yash-kavaiya/mujoco-explainer-skills)**
+
+```bash
+npx skills add yash-kavaiya/mujoco-explainer-skills
+```
+
 **Claude Code, as a plugin**
 
 ```
